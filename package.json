@@ -1,0 +1,19 @@
+{
+  "name": "api-32",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandesh-bhattarai/api-32.git"
+  },
+  "author": "Sandesh Bhattarai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sandesh-bhattarai/api-32/issues"
+  },
+  "homepage": "https://github.com/sandesh-bhattarai/api-32#readme"
+}
