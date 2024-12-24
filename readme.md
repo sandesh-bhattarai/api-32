@@ -213,3 +213,10 @@ d. Query Execution
 
 ### RBAC 
 - Role based access control
+
+
+## Banner Data 
+- DDD (Design Driven Development)
+- TDD (Test Driven Development)
+- BDD (Behavioural/Busniess driven Development)
+- 

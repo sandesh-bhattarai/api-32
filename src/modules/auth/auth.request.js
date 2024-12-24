@@ -1,13 +1,15 @@
 const Joi = require("joi");
 
 const userRegistrationDTO = Joi.object({
-    fullName: Joi.string().regex(/^[A-Za-z]+(?:\s[A-Za-z]+){1,2}$/).required(),
+    fullName: Joi.string().regex(/^[A-Za-z]+(?:\s[A-Za-z]+){1,2}$/).required().messages({
+        "string.pattern.base": "Full name is invalid"
+    }),
     email: Joi.string().email().required(),
     password: Joi.string().regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&+-])(?=.*[\d])[A-Za-z\d!@#$%^&+-]{8,25}$/).required(),
     passwordConfirmation: Joi.string().equal(Joi.ref('password')).required(),
     address: Joi.string().optional().empty(null, ''),
     gender: Joi.string().regex(/^(male|female|other)$/).optional(),
-    telephone: Joi.string().regex(/^(?:\+977[- ]?)?(?:98[4-9]|97[4-9]|96[0-9]|01\d{1})[- ]?\d{6,7}$/).optional(),
+    telephone: Joi.string().regex(/^(?:\+977[- ]?)?(98[0-9]|97[0-9]|96[0-9]|01\d{1})[- ]?\d{7}$/).optional(),
     role:  Joi.string().regex(/^(customer|seller)$/).default('customer'),
 })
 

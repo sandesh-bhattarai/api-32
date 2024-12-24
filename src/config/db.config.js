@@ -12,6 +12,7 @@ const dbConnect = async() => {
         console.log("DB server Connected successfully on: ", process.env.MONGODB_NAME)
     } catch(exception) {
         console.error("Error Establishing db Connect...")
+        console.log(exception)
         // throw exception;
         process.exit(1);
     }

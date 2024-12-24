@@ -118,6 +118,15 @@ class AuthService {
             throw exception
         }
     }
+
+    getListOfUsers = async(filter) => {
+        try {
+            const users = await UserModel.find(filter).sort({name: "asc"})
+            return users;
+        } catch(exception) {
+            throw exception;
+        }
+    }
 }
 
 const authSvc = new AuthService()

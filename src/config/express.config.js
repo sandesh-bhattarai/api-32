@@ -4,8 +4,12 @@ const router = require('./router.config')
 const HttpResponseCode = require('../constants/http-status-code.constant')
 const HttpResponse = require('../constants/response-status.constant')
 require("./db.config");
+const cors = require('cors');
 
 const application = express()
+
+// allow cors
+application.use(cors());
 
 // parser
 application.use(express.json())
@@ -43,6 +47,18 @@ application.use((error, req, res, next) => {
     let status = error.statusCode || HttpResponse.internalServerError;
     let data = error.detail || null;
     
+
+    if(+error.code === 11000) {
+        statusCode = 400;
+        // logic 
+        let msg = {};
+        Object.keys(error.keyPattern).map((field) => {
+            msg[field] = `${field} should be unique`
+        })
+        message = msg;
+        status=  HttpResponse.validationFailed
+    }
+
     res.status(statusCode)
     .json({
         data: data,

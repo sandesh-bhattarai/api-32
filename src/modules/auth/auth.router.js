@@ -1,7 +1,7 @@
 const authRouter = require("express").Router();
 const HttpResponseCode = require("../../constants/http-status-code.constant");
 const HttpResponse = require("../../constants/response-status.constant");
-const checkLogin = require("../../middlewares/auth.middleware");
+const {checkLogin,refreshToken} = require("../../middlewares/auth.middleware");
 const { bodyValidator } = require("../../middlewares/request-validator.middleware");
 const authCtrl = require("./auth.controller");
 const {userRegistrationDTO, loginDTO, activationDTO, resendOtpDTO} = require("./auth.request")
@@ -20,10 +20,17 @@ authRouter.post('/login',bodyValidator(loginDTO), authCtrl.login)
 
 authRouter.get('/me', checkLogin, authCtrl.getLoggedInUser)
 
+
+authRouter.get("/refresh",refreshToken, authCtrl.refreshToken)
+
 // can be accessed by only admin 
 authRouter.get("/all-admin", checkLogin, checkPermission(['admin']),  authCtrl.getUsers)
 
+authRouter.get('/user-by-type', checkLogin, checkPermission(['admin']), authCtrl.getUserList)
+
 authRouter.post("/:id", checkLogin,authCtrl.updateUserById)
+
+
 
 // forget password 
 // reset password

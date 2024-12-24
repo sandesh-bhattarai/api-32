@@ -123,12 +123,18 @@ class AuthController  {
                         sub: user._id
                     }
                     const token = jwt.sign(payload, process.env.JWT_SECRET, {
-                        expiresIn: "10h"
+                        expiresIn: "1h"
                     })
 
+                    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
+                        expiresIn: "15d"
+                    })
+
+                    // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzJiNjE1MzExYzBiMmI1MTJlNjBkMDMiLCJpYXQiOjE3MzE4NDkyOTQsImV4cCI6MTczMzE0NTI5NH0.4MIR7gcHK0_2wj2sQMiCyL_wHq8GetTHrkFy-4r9Aqg
                     res.json({
                         data: {
                             token: token,
+                            refreshToken: refreshToken,
                             detail: {
                                 _id: user._id, 
                                 name: user.name, 
@@ -187,6 +193,59 @@ class AuthController  {
             options: null
         })
     } 
+
+    refreshToken= (req, res, next) => {
+        try {
+            const loggedInUser = req.loggedInUser;
+            const payload = {
+                sub: loggedInUser._id
+            }
+            const token = jwt.sign(payload, process.env.JWT_SECRET, {
+                expiresIn: "1h"
+            })
+
+            const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, {
+                expiresIn: "15d"
+            })
+
+            res.json({
+                data: {
+                    token: token, 
+                    refreshToken: refreshToken
+                }, 
+                message: "Refresh Token.",
+                status: HttpResponse.success,
+                options: null
+            })
+
+        } catch(exception) {
+            next(exception)
+        }
+    }
+
+    getUserList = async(req, res, next) => {
+        try {
+            const role = req?.query?.role || null;
+            let filter = {
+                _id: {$ne: req.loggedInUser._id}
+            };
+            if(role) {
+                filter =  {
+                    ...filter, 
+                    role: role
+                }
+            }
+            const listUsers = await authSvc.getListOfUsers(filter);
+            res.json({
+                data: listUsers, 
+                message: "User Listed.",
+                status: HttpResponse.success,
+                options: null
+            })
+        } catch(exception) {
+            next(exception)
+        }
+    }
 
 }
 

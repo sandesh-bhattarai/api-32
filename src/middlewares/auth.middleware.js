@@ -6,7 +6,6 @@ const authSvc = require("../modules/auth/auth.service");
 
 const checkLogin = async(req, res, next) => {
     try {
-        console.log("hello")
         let token = req.headers['authorization'] || null;
         if(!token) {
             throw {status: HttpResponseCode.UNAUTHENTICATED, message: "Login First", statusCode: HttpResponse.unauthenticated}
@@ -21,7 +20,6 @@ const checkLogin = async(req, res, next) => {
             _id: data.sub
         })
 
-        console.log({user})
         //
         req.loggedInUser = {
             _id: user._id,
@@ -36,16 +34,39 @@ const checkLogin = async(req, res, next) => {
         next();
     } catch(exception) {
         // 
-        console.log("jwt Exception: ",exception)
-        if(exception instanceof jwt.JsonWebTokenError){
-            next({status: HttpResponseCode.UNAUTHENTICATED, message: exception.message, statusCode: HttpResponse.unauthenticated})
-        } else if(exception instanceof jwt.TokenExpiredError) {
+        if(exception instanceof jwt.TokenExpiredError) {
             next({status: HttpResponseCode.UNAUTHENTICATED, message: exception.message, statusCode: HttpResponse.tokenExpired})
-        }
-        else {
+        } else if(exception instanceof jwt.JsonWebTokenError){
+            next({status: HttpResponseCode.UNAUTHENTICATED, message: exception.message, statusCode: HttpResponse.unauthenticated})
+        } else {
             next(exception)
         }
     }
 }
 
-module.exports = checkLogin
+const refreshToken  = async(req, res, next) => {
+    try {
+        const refreshToken = req.headers['refresh'] || null; 
+        if(!refreshToken) {
+            next({status: HttpResponseCode.UNAUTHENTICATED, message: "Token Not Found", statusCode: HttpResponse.unauthenticated})
+        }
+        const data = jwt.verify(refreshToken, process.env.JWT_SECRET);
+        const user = await authSvc.getUserByFilter({
+            _id: data.sub
+        })
+        req.loggedInUser = {
+            _id: user._id,
+            name: user.name,
+            role: user.role, 
+            image: user.image, 
+            email: user.email,
+            address: user.address,
+            telephone: user.telephone,
+            gender: user.gender
+        };
+        next()
+    } catch(exception) {
+        next(exception)
+    }
+}
+module.exports = {checkLogin, refreshToken}
