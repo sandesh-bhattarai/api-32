@@ -10,7 +10,7 @@ const application = require('./src/config/express.config')
 // process 
 const args = process.argv.splice(2) || null;
 // one time setup 
-let port = 9005;
+let port = 80;
 let host = '127.0.0.1';
 
 if(args.length) {
@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
     // event trigger listen
 
 // TODO: Refactor
-appServer.listen(port, host, (err) =>{
+appServer.listen(process.env.PORT || 80, (err) =>{
     if(!err) {
         console.log("Server is running on port: ", port)
         console.log("Press CTRL+C to disconnect server...")

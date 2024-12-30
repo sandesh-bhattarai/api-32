@@ -32,6 +32,7 @@ application.use('/health', (request, response) => {
 
 // router
 application.use('/api/v1', router)
+application.use(router)
 
 application.use((req, res, next) => {
     next({status: HttpResponseCode.NOT_FOUND, message: "Not found", statusCode: HttpResponse.notFound})
