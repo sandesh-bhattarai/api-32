@@ -38,6 +38,10 @@ const UserSchema = new mongoose.Schema({
     address: String,
     telephone: String, 
     image: String,
+    geocoordinate: {
+        lat: String,
+        long: String
+    },
     status: {
         type: String, 
         enum: ['active','inactive'],

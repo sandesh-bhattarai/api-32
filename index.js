@@ -1,5 +1,7 @@
 // import http from "http";
 const http = require('http');
+const {Server} = require("socket.io");
+
 // import application from "./src/config/express.config";
 const application = require('./src/config/express.config')
 
@@ -26,6 +28,24 @@ if(args.length) {
 
 // node server instance
 const appServer = http.createServer(application);
+
+const io = new Server(appServer, {
+    cors: {
+        origin: "*"
+    }
+})
+
+io.on("connection", (socket) => {
+    // emit event 
+    socket.on("newMessage", (data) => {
+        socket.broadcast.emit("newMessageReceived", data)
+    })
+})
+
+// emit 
+    // event trigger/fire/call
+// listen 
+    // event trigger listen
 
 // TODO: Refactor
 appServer.listen(port, host, (err) =>{

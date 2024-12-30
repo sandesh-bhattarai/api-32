@@ -26,7 +26,7 @@ authRouter.get("/refresh",refreshToken, authCtrl.refreshToken)
 // can be accessed by only admin 
 authRouter.get("/all-admin", checkLogin, checkPermission(['admin']),  authCtrl.getUsers)
 
-authRouter.get('/user-by-type', checkLogin, checkPermission(['admin']), authCtrl.getUserList)
+authRouter.get('/user-by-type', checkLogin, authCtrl.getUserList)
 
 authRouter.post("/:id", checkLogin,authCtrl.updateUserById)
 
