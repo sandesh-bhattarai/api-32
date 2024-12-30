@@ -8,16 +8,8 @@
     "sandesh": "node ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sandesh-bhattarai/api-32.git"
-  },
   "author": "Sandesh Bhattarai",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sandesh-bhattarai/api-32/issues"
-  },
-  "homepage": "https://github.com/sandesh-bhattarai/api-32#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",

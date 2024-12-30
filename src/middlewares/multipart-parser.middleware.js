@@ -1,9 +1,13 @@
 const multer = require("multer");
 const HttpResponseCode = require("../constants/http-status-code.constant");
 const HttpResponse = require("../constants/response-status.constant");
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        if(!fs.existsSync('./public')) {
+            fs.mkdirSync('./public',{recursive: true})
+        }
         cb(null,"./public")
     },
     filename: (req, file, cb) => {
