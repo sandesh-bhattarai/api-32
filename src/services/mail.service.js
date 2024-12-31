@@ -9,6 +9,7 @@ class MailService {
         // testing => mailtrap
         // real implement  => 
         try {
+            console.log(process.env.SMTP_HOST,process.env.SMTP_USER)
             let config = {
                 host: process.env.SMTP_HOST, 
                 port: process.env.SMTP_PORT,  
