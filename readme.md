@@ -249,4 +249,6 @@ d. Query Execution
 - copy .env.sample to .env
 - npm start
 
+- git pull origin main
+
 - http://localhost:9005/api/v1/
