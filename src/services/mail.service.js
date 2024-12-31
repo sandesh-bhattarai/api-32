@@ -9,7 +9,7 @@ class MailService {
         // testing => mailtrap
         // real implement  => 
         try {
-            console.log(process.env.SMTP_HOST,process.env.SMTP_USER)
+            
             let config = {
                 host: process.env.SMTP_HOST, 
                 port: process.env.SMTP_PORT,  
@@ -32,6 +32,7 @@ class MailService {
 
     sendEmail = async (to, sub, message, attachements = null) => {
         try {
+            console.log(this.transport)
             const ack = await this.transport.sendMail({
                 to: to,
                 from: process.env.SMTP_FROM,
