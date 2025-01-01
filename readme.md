@@ -247,6 +247,7 @@ d. Query Execution
 - npm install
 - npm i nodemon -g
 - copy .env.sample to .env
+- at root directory make public/ folder
 - npm start
 
 - git pull origin main
